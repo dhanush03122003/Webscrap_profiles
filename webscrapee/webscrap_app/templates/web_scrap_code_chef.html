@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        th.sortable {
+            cursor: pointer;
+            position: relative;
+            padding-right: 20px; /* Make space for the arrows */
+        }
+        .sort-arrows {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .sort-arrow {
+            cursor: pointer;
+            font-size: 0.75em;
+            line-height: 1em;
+        }
+    </style>
+</head>
+<body>
+
+    <form method="post">
+        {% csrf_token %}
+        <select name="type" id="" required onchange="kk()">
+            <option value="code_chef">code chef</option>
+            <option value="leet_code">leet code</option>
+        </select>
+        <label for="123">Enter the link:</label>
+        <input type="text" name="link" id="123" required>
+        <input type="submit" name="" id="">
+    </form>
+
+    <h2>LeetCode Details</h2>
+    <table border="1" id="leetCodeTable">
+        <thead>
+            <tr>
+                <th>URL</th>
+                <th>Logo</th>
+                <th>Username</th>
+                <th class="sortable">Rank 
+                    <span class="sort-arrows">
+                        <span class="sort-arrow" onclick="sortTable('leetCodeTable', 2, true)">&#x25B2;</span>
+                        <span class="sort-arrow" onclick="sortTable('leetCodeTable', 2, false)">&#x25BC;</span>
+                    </span>
+                </th>
+                <th class="sortable">Problem Solutions 
+                    <span class="sort-arrows">
+                        <span class="sort-arrow" onclick="sortTable('leetCodeTable', 3, true)">&#x25B2;</span>
+                        <span class="sort-arrow" onclick="sortTable('leetCodeTable', 3, false)">&#x25BC;</span>
+                    </span>
+                </th>
+                <th class="sortable">Easy 
+                    <span class="sort-arrows">
+                        <span class="sort-arrow" onclick="sortTable('leetCodeTable', 4, true)">&#x25B2;</span>
+                        <span class="sort-arrow" onclick="sortTable('leetCodeTable', 4, false)">&#x25BC;</span>
+                    </span>
+                </th>
+                <th class="sortable">Medium 
+                    <span class="sort-arrows">
+                        <span class="sort-arrow" onclick="sortTable('leetCodeTable', 5, true)">&#x25B2;</span>
+                        <span class="sort-arrow" onclick="sortTable('leetCodeTable', 5, false)">&#x25BC;</span>
+                    </span>
+                </th>
+                <th class="sortable">Hard 
+                    <span class="sort-arrows">
+                        <span class="sort-arrow" onclick="sortTable('leetCodeTable', 6, true)">&#x25B2;</span>
+                        <span class="sort-arrow" onclick="sortTable('leetCodeTable', 6, false)">&#x25BC;</span>
+                    </span>
+                </th>
+                <th class="sortable">Date 
+                    <span class="sort-arrows">
+                        <span class="sort-arrow" onclick="sortTable('leetCodeTable', 7, true)">&#x25B2;</span>
+                        <span class="sort-arrow" onclick="sortTable('leetCodeTable', 7, false)">&#x25BC;</span>
+                    </span>
+                </th>
+                <th class="sortable">Last Updated
+                    <span class="sort-arrows">
+                        <span class="sort-arrow" onclick="sortTable('leetCodeTable', 7, true)">&#x25B2;</span>
+                        <span class="sort-arrow" onclick="sortTable('leetCodeTable', 7, false)">&#x25BC;</span>
+                    </span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for leet_code_object in o2 %}
+            <tr>
+                <td><a href="{{ leet_code_object.url }} " target="_blank">{{ leet_code_object.url }}</a></td>
+                <td><a href="{{  leet_code_object.logo }} " target="_blank">{{  leet_code_object.logo }}</a></td>
+
+                <td>{{ leet_code_object.Username }}</td>
+                <td>{{ leet_code_object.rank }}</td>
+                <td>{{ leet_code_object.prob_sol }}</td>
+                <td>{{ leet_code_object.easy }}</td>
+                <td>{{ leet_code_object.medium }}</td>
+                <td>{{ leet_code_object.hard }}</td>
+                <td>{{ leet_code_object.date }}</td>
+                <td>{{ leet_code_object.days }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>CodeChef Details</h2>
+    <table border="1" id="codeChefTable">
+        <thead>
+            <tr>
+                <th>URL</th>
+                <th>Username</th>
+                <th class="sortable">Rating 
+                    <span class="sort-arrows">
+                        <span class="sort-arrow" onclick="sortTable('codeChefTable', 2, true)">&#x25B2;</span>
+                        <span class="sort-arrow" onclick="sortTable('codeChefTable', 2, false)">&#x25BC;</span>
+                    </span>
+                </th>
+                <th class="sortable">Division 
+                    <span class="sort-arrows">
+                        <span class="sort-arrow" onclick="sortTable('codeChefTable', 3, true)">&#x25B2;</span>
+                        <span class="sort-arrow" onclick="sortTable('codeChefTable', 3, false)">&#x25BC;</span>
+                    </span>
+                </th>
+                <th class="sortable">Stars 
+                    <span class="sort-arrows">
+                        <span class="sort-arrow" onclick="sortTable('codeChefTable', 4, true)">&#x25B2;</span>
+                        <span class="sort-arrow" onclick="sortTable('codeChefTable', 4, false)">&#x25BC;</span>
+                    </span>
+                </th>
+                <th class="sortable">Highest Rating 
+                    <span class="sort-arrows">
+                        <span class="sort-arrow" onclick="sortTable('codeChefTable', 5, true)">&#x25B2;</span>
+                        <span class="sort-arrow" onclick="sortTable('codeChefTable', 5, false)">&#x25BC;</span>
+                    </span>
+                </th>
+                <th class="sortable">Global Rank 
+                    <span class="sort-arrows">
+                        <span class="sort-arrow" onclick="sortTable('codeChefTable', 6, true)">&#x25B2;</span>
+                        <span class="sort-arrow" onclick="sortTable('codeChefTable', 6, false)">&#x25BC;</span>
+                    </span>
+                </th>
+                <th class="sortable">Country Rank 
+                    <span class="sort-arrows">
+                        <span class="sort-arrow" onclick="sortTable('codeChefTable', 7, true)">&#x25B2;</span>
+                        <span class="sort-arrow" onclick="sortTable('codeChefTable', 7, false)">&#x25BC;</span>
+                    </span>
+                </th>
+                <th class="sortable">Date 
+                    <span class="sort-arrows">
+                        <span class="sort-arrow" onclick="sortTable('codeChefTable', 8, true)">&#x25B2;</span>
+                        <span class="sort-arrow" onclick="sortTable('codeChefTable', 8, false)">&#x25BC;</span>
+                    </span>
+                </th>
+                <th class="sortable">Last Updated
+                    <span class="sort-arrows">
+                        <span class="sort-arrow" onclick="sortTable('leetCodeTable', 7, true)">&#x25B2;</span>
+                        <span class="sort-arrow" onclick="sortTable('leetCodeTable', 7, false)">&#x25BC;</span>
+                    </span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for code_chef_object in o1 %}
+            <tr>
+                <td><a href="{{ code_chef_object.url }}" target="_blank">{{ code_chef_object.url }}</a></td>
+                <td>{{ code_chef_object.Username }}</td>
+                <td>{{ code_chef_object.rating }}</td>
+                <td>{{ code_chef_object.Division }}</td>
+                <td>{{ code_chef_object.star }}</td>
+                <td>{{ code_chef_object.H_Rating }}</td>
+                <td>{{ code_chef_object.global_rank }}</td>
+                <td>{{ code_chef_object.country_rank }}</td>
+                <td>{{ code_chef_object.date }}</td>
+                <td>{{ code_chef_object.days }}</td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        function kk() {
+            var x = document.getElementById('123');
+            x.value = "";  // Set the value property to clear the input field
+        }
+
+        window.onload = function() {
+            var x = {{ error|default:"0" }};
+            if(x) {
+                alert("invalid link");
+            }
+        };
+
+        function sortTable(tableId, columnIndex, ascending) {
+            var table = document.getElementById(tableId);
+            var rows = Array.prototype.slice.call(table.tBodies[0].rows, 0);
+            rows.sort(function(a, b) {
+                var aText = a.cells[columnIndex].textContent.trim();
+                var bText = b.cells[columnIndex].textContent.trim();
+                return ascending ? aText.localeCompare(bText) : bText.localeCompare(aText);
+            });
+            for (var i = 0; i < rows.length; i++) {
+                table.tBodies[0].appendChild(rows[i]);
+            }
+        }
+    </script>
+
+</body>
+</html>
